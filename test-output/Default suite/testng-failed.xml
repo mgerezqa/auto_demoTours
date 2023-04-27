@@ -5,7 +5,7 @@
     <classes>
       <class name="tests.Tests">
         <methods>
-          <include name="tc01_iniciarSesion"/>
+          <include name="tc02_reservarVuelo"/>
           <include name="setUp"/>
           <include name="tearDown"/>
         </methods>

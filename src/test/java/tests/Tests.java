@@ -8,6 +8,10 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
+import helpers.Helpers;
+import pages.PageHome;
+import pages.PageLogin;
+import pages.PageReservation;
 
 public class Tests {
  
@@ -25,25 +29,36 @@ public class Tests {
 //		3)  maximizar el navegador
 		driver.manage().window().maximize();
 		
-	try {
-			Thread.sleep(5000);
-		} catch(InterruptedException e) {
-			e.printStackTrace();
-		}
+		Helpers helper = new Helpers();
+		helper.sleepSeconds(5);
 	}
 	
 	@Test
 	public void tc01_iniciarSesion() {
-		driver.findElement(By.partialLinkText("SIGN-ON")).click();	
-		driver.findElement(By.name("userName")).sendKeys("user");
-		driver.findElement(By.name("password")).sendKeys("user");
-		driver.findElement(By.name("submit")).click();
-	try {
-		Thread.sleep(5000);
-	} catch(InterruptedException e) {
-		e.printStackTrace();
+
+		PageHome home = new PageHome(driver);
+		home.signOn();
+		PageLogin user = new PageLogin(driver);
+		user.login("user", "user");
+		
+//		Validacion de login correcto
+		Assert.assertTrue(driver.findElement(By.xpath("//tbody//tr//td//h3")).getText().contains("Login Successfully"));
 	}
-	Assert.assertTrue(driver.findElement(By.xpath("//tbody//tr//td//h3")).getText().contains("Login Successfully"));
+	
+	@Test
+	public void tc02_reservarVuelo() {
+
+		PageHome home = new PageHome(driver);
+		home.signOn();
+		PageLogin user = new PageLogin(driver);
+		user.login("mercury", "mercury");
+		home.flights();
+		
+		PageReservation reservation = new PageReservation(driver);
+		reservation.continueReservation();
+		
+//		Validacion de login correcto
+//		Assert.assertTrue(driver.findElement(By.xpath("//tbody//tr//td//h3")).getText().contains("Login Successfully"));
 	}
 	
 	@AfterSuite
