@@ -57,8 +57,20 @@ public class Tests {
 		PageReservation reservation = new PageReservation(driver);
 		reservation.continueReservation();
 		
-//		Validacion de login correcto
+//		Validacion de ingreso a formulario de reserva de vuelos
 //		Assert.assertTrue(driver.findElement(By.xpath("//tbody//tr//td//h3")).getText().contains("Login Successfully"));
+	}
+
+	@Test
+	public void tc03_datosReserva() {
+		PageHome home = new PageHome(driver); 
+		home.flights();
+		PageReservation reservation = new  PageReservation(driver);
+		reservation.passengers(3);
+		reservation.departingFrom("Paris");
+		reservation.arrivingIn(9); //Sydney
+		
+		
 	}
 	
 	@AfterSuite
